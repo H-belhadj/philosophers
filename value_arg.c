@@ -1,4 +1,4 @@
-#include "philosophers.h"
+#include "philo.h"
 
 void arg_value(t_list *list, int argc, char **argv)
 {

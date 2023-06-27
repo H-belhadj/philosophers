@@ -1,14 +1,8 @@
-#include "philosophers.h"
+#include "philo.h"
 
 int main(int argc, char **argv)
 {
-    if(argc == 5 || argc == 6)
-    {
-
-    }
-    else
-    {
-        printf("Error");
+    if (cheack(argc, argv))
         return 1;
-    }
+    return 0;
 }
