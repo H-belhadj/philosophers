@@ -1,42 +1,26 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -g
+ CC = cc
+CFLAGS = -Wall -Wextra -Werror  -g
+NAME = philo
+SOURCES = circulare_philo.c  error.c  philosophers.c  utils.c  value_arg.c
+OBJECTS = $(SOURCES:.c=.o)
 
-SRCS = cheack_arg.c error.c philosophers.c utils.c value_arg.c
-OBJS = $(SRCS:.c=.o)
-TARGET = philosophers
+%.o : %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Colors for terminal output
-RED = \033[0;31m
-BLUE = \033[0;34m
-GOLD = \033[0;33m
-NC = \033[0m
+all : $(NAME)
 
-# Line styles for terminal output
-LINE_STYLE = \033[1;4m
-LINE_RESET = \033[0m
+$(NAME): $(OBJECTS)
+	@$(CC) $(CFLAGS) $(OBJECTS) -o $(NAME)
+	@echo "\033[1;32mDONE!\033[0m"
 
+OBJTS: $(SOURCES)
+	$(CC) $(CFLAGS) -c $^
 
-all: $(TARGET)
+clean : 
+	@echo "\033[36mCleaning push_swap....\033[0m"
+	@rm -rf $(OBJECTS)
 
-$(TARGET): $(OBJS)
-	@echo "$(BLUE)$(LINE_STYLE)Linking object files:$(LINE_RESET)$(NC)"
-	@$(CC) $(CFLAGS) $^ -o $@
-	@echo "$(GOLD)Build complete!$(NC)"
+fclean : clean
+	@rm -rf $(NAME)
 
-%.o: %.c philo.h
-	@echo "$(RED)$(LINE_STYLE)Compiling: $<$(LINE_RESET)$(NC)"
-	@$(CC) $(CFLAGS) -c $< -o $@ && echo "$(GOLD)Compiled: $<$(NC)"
-
-clean:
-	@echo "$(BLUE)$(LINE_STYLE)Cleaning up...$(LINE_RESET)$(NC)"
-	@rm -f $(OBJS)
-	@echo "$(GOLD)Cleanup complete!$(NC)"
-
-fclean: clean
-	@echo "$(BLUE)$(LINE_STYLE)Removing executable:$(LINE_RESET)$(NC)"
-	@rm -f $(TARGET)
-	@echo "$(GOLD)Full cleanup complete!$(NC)"
-
-re: fclean all
-
-.PHONY: all clean fclean re
+re : fclean all

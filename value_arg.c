@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void arg_value(t_list *list, int argc, char **argv)
+t_list *arg_value(t_list *list, int argc, char **argv)
 {
     list->number_of_philosophers = ft_atoi(argv[1]);
     list->time_to_die = ft_atoi(argv[2]);
@@ -10,4 +10,5 @@ void arg_value(t_list *list, int argc, char **argv)
 
     if(argc == 6)
         list->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
+    return (list);
 }
