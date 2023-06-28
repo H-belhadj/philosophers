@@ -17,7 +17,7 @@ OBJTS: $(SOURCES)
 	$(CC) $(CFLAGS) -c $^
 
 clean : 
-	@echo "\033[36mCleaning push_swap....\033[0m"
+	@echo "\033[36mCleaning philo....\033[0m"
 	@rm -rf $(OBJECTS)
 
 fclean : clean

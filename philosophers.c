@@ -5,7 +5,7 @@ int main(int argc, char **argv)
     t_list  *list;
     t_philo *philo;
     
-    philo = NULL;
+    (void)philo;
     list = malloc(sizeof(t_list));
     if (cheack(argc, argv))
         return 1;
