@@ -4,6 +4,9 @@ t_philo *new_philo(int value, t_list *list)
     t_philo *new_philo = malloc(sizeof(t_philo));
     new_philo->n_philo = value;
     new_philo->data = list;
+    new_philo->eat = 0;
+    new_philo->last_eat = timer();
+    pthread_mutex_init(&new_philo->fork, NULL);
     return (new_philo);
 }
 

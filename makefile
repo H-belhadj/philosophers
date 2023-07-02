@@ -1,7 +1,7 @@
  CC = cc
-CFLAGS = -Wall -Wextra -Werror  -g
+CFLAGS = -Wall -Wextra -Werror
 NAME = philo
-SOURCES = circulare_philo.c  error.c  philosophers.c  utils.c  value_arg.c
+SOURCES = circulare_philo.c  error.c  philosophers.c  utils.c  value_arg.c fork.c time.c
 OBJECTS = $(SOURCES:.c=.o)
 
 %.o : %.c

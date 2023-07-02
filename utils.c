@@ -37,7 +37,7 @@ int ft_atoi(char *str)
 
     i = 0;
     r = 0;
-    sign = 0;
+    sign = 1;
 
     while(str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
         i++;
