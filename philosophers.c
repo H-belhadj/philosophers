@@ -5,7 +5,7 @@ void eat(t_philo *philo)
     printf("EATING\n");
     philo->last_eat = timer();
     philo->eat++;
-    
+    usleep(philo->data->time_to_eat * 1000);
 }
 
 void *diner(void *arg)
@@ -17,6 +17,11 @@ void *diner(void *arg)
     {
         ft_fork(philo);
         eat(philo);
+        printf("%ld ", time_cur(philo));
+        printf("SLEEP\n");
+        usleep(philo->data->time_to_sleep * 1000);
+        printf("%ld ", time_cur(philo));
+        printf("THINKING\n");
         pthread_mutex_unlock(&philo->fork);
         pthread_mutex_unlock(&philo->next->fork);
         
@@ -39,10 +44,10 @@ void cena(t_philo *philo)
     
     while (1)
     {
-        /* code */
+        // cheack the last time eat whit this time now
+        // if cur time - last time eat > time to die == kill the prossec and exit
+        // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 
     }
-    
-}
 
 int main(int argc, char **argv)
 {
