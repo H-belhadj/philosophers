@@ -6,7 +6,7 @@
 /*   By: hbelhadj <hbelhadj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 22:37:32 by hbelhadj          #+#    #+#             */
-/*   Updated: 2023/07/01 23:03:08 by hbelhadj         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:31:53 by hbelhadj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ long timer(void)
     long    time;
 
     gettimeofday(&tmp, NULL);
-    time = tmp.tv_sec * 100 + tmp.tv_usec / 1000; 
+    time = tmp.tv_sec * 1000 + tmp.tv_usec / 1000; 
     return (time);
 }
 long time_cur(t_philo *philo)

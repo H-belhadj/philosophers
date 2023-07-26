@@ -25,8 +25,10 @@ void eat(t_philo *philo)
     pthread_mutex_unlock(&philo->data->die);
     pthread_mutex_lock(&philo->data->eat);
     philo->eat++;
-    pthread_mutex_lock(&philo->data->eat);
+    pthread_mutex_unlock(&philo->data->eat);
     ft_usleep(philo->data->time_to_eat);
+    pthread_mutex_unlock(&philo->fork);
+    pthread_mutex_unlock(&philo->next->fork);
 }
 
 void *diner(void *arg)
@@ -45,8 +47,6 @@ void *diner(void *arg)
         pthread_mutex_lock(&philo->data->write);
         ft_print("THINKING\n", philo);
         pthread_mutex_unlock(&philo->data->write);
-        pthread_mutex_unlock(&philo->fork);
-        pthread_mutex_unlock(&philo->next->fork);
     }
 }
 
@@ -63,12 +63,12 @@ void cena(t_philo *philo)
         usleep(100);
     }
     
-    // while (1)
-    // {
-    //     // cheack the last time eat whit this time now
-    //     // if cur time - last time eat > time to die == kill the prossec and exit
-    //     // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 
-    // }
+    while (1)
+    {
+        // cheack the last time eat whit this time now
+        // if cur time - last time eat > time to die == kill the prossec and exit
+        // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 
+    }
 }
 int main(int argc, char **argv)
 {
