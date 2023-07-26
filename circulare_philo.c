@@ -32,6 +32,9 @@ t_philo *ft_philo(t_list *list)
 
     i = 0;
     philo = NULL;
+    pthread_mutex_init(&list->write, NULL);
+    pthread_mutex_init(&list->eat, NULL);
+    pthread_mutex_init(&list->die, NULL);
     while(++i <= list->number_of_philosophers)
         philo_list(&philo, new_philo(i, list));
     return (philo);

@@ -15,6 +15,9 @@ typedef struct s_list {
     int time_to_sleep;
     int number_of_times_each_philosopher_must_eat;
     long    start_time;
+    pthread_mutex_t write;
+    pthread_mutex_t eat;
+    pthread_mutex_t die;
 } t_list;
 
 typedef struct s_philo{
@@ -41,5 +44,5 @@ t_philo *ft_philo(t_list *list);
 void ft_fork(t_philo *philo);
 long timer(void);
 long time_cur(t_philo *philo);
-
+void ft_print(char *str, t_philo *philo);
 #endif

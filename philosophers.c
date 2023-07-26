@@ -1,11 +1,32 @@
 #include "philo.h"
+void ft_usleep(long time)
+{
+    long at_moment;
+
+    at_moment = timer();
+    while(timer() < time + at_moment)
+        usleep(500);
+}
+void ft_print(char *str, t_philo *philo)
+{
+    long    time;
+
+    time = time_cur(philo);
+    printf("%ld PHILO %d %s", time, philo->n_philo, str);
+
+}
 void eat(t_philo *philo)
 {
-    printf("%ld ", time_cur(philo));
-    printf("EATING\n");
+    pthread_mutex_lock(&philo->data->write);
+    ft_print("EATING\n", philo);
+    pthread_mutex_unlock(&philo->data->write);
+    pthread_mutex_lock(&philo->data->die);
     philo->last_eat = timer();
+    pthread_mutex_unlock(&philo->data->die);
+    pthread_mutex_lock(&philo->data->eat);
     philo->eat++;
-    usleep(philo->data->time_to_eat * 1000);
+    pthread_mutex_lock(&philo->data->eat);
+    ft_usleep(philo->data->time_to_eat);
 }
 
 void *diner(void *arg)
@@ -17,15 +38,15 @@ void *diner(void *arg)
     {
         ft_fork(philo);
         eat(philo);
-        printf("%ld ", time_cur(philo));
-        printf("SLEEP\n");
-        usleep(philo->data->time_to_sleep * 1000);
-        printf("%ld ", time_cur(philo));
-        printf("THINKING\n");
+        pthread_mutex_lock(&philo->data->write);
+        ft_print("SLEPING\n", philo);
+        pthread_mutex_unlock(&philo->data->write);
+        ft_usleep(philo->data->time_to_sleep);
+        pthread_mutex_lock(&philo->data->write);
+        ft_print("THINKING\n", philo);
+        pthread_mutex_unlock(&philo->data->write);
         pthread_mutex_unlock(&philo->fork);
         pthread_mutex_unlock(&philo->next->fork);
-        
-        
     }
 }
 
@@ -42,13 +63,13 @@ void cena(t_philo *philo)
         usleep(100);
     }
     
-    while (1)
-    {
-        // cheack the last time eat whit this time now
-        // if cur time - last time eat > time to die == kill the prossec and exit
-        // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 
-    }
-
+    // while (1)
+    // {
+    //     // cheack the last time eat whit this time now
+    //     // if cur time - last time eat > time to die == kill the prossec and exit
+    //     // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 
+    // }
+}
 int main(int argc, char **argv)
 {
     t_list  *list;
