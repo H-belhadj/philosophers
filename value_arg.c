@@ -7,7 +7,7 @@ t_list *arg_value(t_list **list, int argc, char **argv)
     (*list)->time_to_eat = ft_atoi(argv[3]);
     (*list)->time_to_sleep = ft_atoi(argv[4]);
     (*list)->number_of_times_each_philosopher_must_eat = -1;
-    printf("%d\n", ft_atoi(argv[1]));
+    // printf("%d\n", ft_atoi(argv[1]));
     if(argc == 6)
         (*list)->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
     (*list)->start_time = timer();

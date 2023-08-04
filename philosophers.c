@@ -38,6 +38,8 @@ void *diner(void *arg)
     philo = (t_philo *)arg;
     while(1)
     {
+        if(philo->is_dead == 1)
+            return (NULL);
         ft_fork(philo);
         eat(philo);
         pthread_mutex_lock(&philo->data->write);
@@ -53,7 +55,7 @@ void *diner(void *arg)
 void cena(t_philo *philo)
 {
     int i;
-    
+
     i = 0;
     while(++i <= philo->data->number_of_philosophers)
     {
@@ -65,6 +67,22 @@ void cena(t_philo *philo)
     
     while (1)
     {
+        i = 0;
+        while(++i <= philo->data->number_of_philosophers)
+        {
+            if(timer() - philo->last_eat >= philo->data->time_to_die)
+            {
+                t_philo *tmp = philo;
+                while(tmp->next != philo)
+                {
+                    tmp->is_dead = 1;
+                    tmp = tmp->next;
+                }
+                return;
+            }  
+            philo = philo->next;
+            usleep(100);
+    }
         // cheack the last time eat whit this time now
         // if cur time - last time eat > time to die == kill the prossec and exit
         // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 

@@ -21,6 +21,7 @@ typedef struct s_list {
 } t_list;
 
 typedef struct s_philo{
+    int is_dead;
     int n_philo;
     t_list  *data;
     struct s_philo *next;
@@ -29,7 +30,6 @@ typedef struct s_philo{
     pthread_mutex_t	fork;
     int last_eat;
     int eat;
-
 }t_philo;
 
 int     cheack(int ac, char **av);

@@ -2,6 +2,7 @@
 t_philo *new_philo(int value, t_list *list)
 {
     t_philo *new_philo = malloc(sizeof(t_philo));
+    new_philo->is_dead = 0;
     new_philo->n_philo = value;
     new_philo->data = list;
     new_philo->eat = 0;
