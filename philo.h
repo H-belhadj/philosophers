@@ -28,7 +28,7 @@ typedef struct s_philo{
     struct s_philo *prev;
     pthread_t thread;
     pthread_mutex_t	fork;
-    int last_eat;
+    long last_eat;
     int eat;
 }t_philo;
 

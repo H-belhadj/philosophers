@@ -12,7 +12,7 @@ void ft_print(char *str, t_philo *philo)
     long    time;
 
     time = time_cur(philo);
-    printf("%ld PHILO %d %s", time, philo->n_philo, str);
+    printf("%ldms PHILO %d %s", time, philo->n_philo, str);
 
 }
 void eat(t_philo *philo)
@@ -64,30 +64,25 @@ void cena(t_philo *philo)
         philo = philo->next;
         usleep(100);
     }
-    
     while (1)
     {
-        i = 0;
-        while(++i <= philo->data->number_of_philosophers)
+        pthread_mutex_lock(&philo->data->die);
+        if(timer() - philo->last_eat >= philo->data->time_to_die && time_cur(philo) % philo->data->time_to_die == 0)
         {
-            if(timer() - philo->last_eat >= philo->data->time_to_die)
-            {
-                t_philo *tmp = philo;
-                while(tmp->next != philo)
-                {
-                    tmp->is_dead = 1;
-                    tmp = tmp->next;
-                }
-                return;
-            }  
-            philo = philo->next;
-            usleep(100);
+            philo->is_dead = 1;
+            ft_print("DEAD\n", philo);
+            return;
+
+        }   
+        pthread_mutex_unlock(&philo->data->die);
+        philo = philo->next;     
     }
+    
         // cheack the last time eat whit this time now
         // if cur time - last time eat > time to die == kill the prossec and exit
         // if you the last argument == yes == cheack all the philos eat the last argument numbers and exit == no ==do nothing 
     }
-}
+
 int main(int argc, char **argv)
 {
     t_list  *list;
