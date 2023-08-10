@@ -15,6 +15,8 @@ typedef struct s_list {
     int time_to_sleep;
     int number_of_times_each_philosopher_must_eat;
     long    start_time;
+    int is_end;
+    int finish;
     pthread_mutex_t write;
     pthread_mutex_t eat;
     pthread_mutex_t die;

@@ -18,6 +18,8 @@ void ft_print(char *str, t_philo *philo)
 void eat(t_philo *philo)
 {
     pthread_mutex_lock(&philo->data->write);
+    if(philo->is_dead == 1)
+        return ;
     ft_print("EATING\n", philo);
     pthread_mutex_unlock(&philo->data->write);
     pthread_mutex_lock(&philo->data->die);
@@ -25,6 +27,8 @@ void eat(t_philo *philo)
     pthread_mutex_unlock(&philo->data->die);
     pthread_mutex_lock(&philo->data->eat);
     philo->eat++;
+    if(philo->eat == philo->data->number_of_times_each_philosopher_must_eat)
+        philo->data->finish++;        
     pthread_mutex_unlock(&philo->data->eat);
     ft_usleep(philo->data->time_to_eat);
     pthread_mutex_unlock(&philo->fork);
@@ -38,15 +42,17 @@ void *diner(void *arg)
     philo = (t_philo *)arg;
     while(1)
     {
-        if(philo->is_dead == 1)
-            return (NULL);
         ft_fork(philo);
         eat(philo);
         pthread_mutex_lock(&philo->data->write);
+        if(philo->is_dead == 1)
+            return (NULL);
         ft_print("SLEPING\n", philo);
         pthread_mutex_unlock(&philo->data->write);
         ft_usleep(philo->data->time_to_sleep);
         pthread_mutex_lock(&philo->data->write);
+        if(philo->is_dead == 1)
+            return (NULL);
         ft_print("THINKING\n", philo);
         pthread_mutex_unlock(&philo->data->write);
     }
@@ -66,10 +72,20 @@ void cena(t_philo *philo)
     }
     while (1)
     {
+        pthread_mutex_lock(&philo->data->eat);
+        if(philo->data->number_of_times_each_philosopher_must_eat > 0 && philo->data->finish >= philo->data->number_of_philosophers)
+        {
+            philo->data->is_end = 1;
+            printf("ALL THE PHILOSOPHERS ARE EAT %d TIME\n", philo->data->number_of_times_each_philosopher_must_eat);
+            return ;
+        } 
+        pthread_mutex_unlock(&philo->data->eat);        
         pthread_mutex_lock(&philo->data->die);
         if(timer() - philo->last_eat >= philo->data->time_to_die && time_cur(philo) % philo->data->time_to_die == 0)
         {
-            philo->is_dead = 1;
+            philo->data->is_end = 1;
+            if(philo->is_dead == 1)
+                return ;
             ft_print("DEAD\n", philo);
             return;
 
