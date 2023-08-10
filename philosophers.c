@@ -18,7 +18,7 @@ void ft_print(char *str, t_philo *philo)
 void eat(t_philo *philo)
 {
     pthread_mutex_lock(&philo->data->write);
-    if(philo->is_dead == 1)
+    if(philo->data->is_end == 1)
         return ;
     ft_print("EATING\n", philo);
     pthread_mutex_unlock(&philo->data->write);
@@ -45,13 +45,13 @@ void *diner(void *arg)
         ft_fork(philo);
         eat(philo);
         pthread_mutex_lock(&philo->data->write);
-        if(philo->is_dead == 1)
+        if(philo->data->is_end == 1)
             return (NULL);
         ft_print("SLEPING\n", philo);
         pthread_mutex_unlock(&philo->data->write);
         ft_usleep(philo->data->time_to_sleep);
         pthread_mutex_lock(&philo->data->write);
-        if(philo->is_dead == 1)
+        if(philo->data->is_end == 1)
             return (NULL);
         ft_print("THINKING\n", philo);
         pthread_mutex_unlock(&philo->data->write);
@@ -84,8 +84,6 @@ void cena(t_philo *philo)
         if(timer() - philo->last_eat >= philo->data->time_to_die && time_cur(philo) % philo->data->time_to_die == 0)
         {
             philo->data->is_end = 1;
-            if(philo->is_dead == 1)
-                return ;
             ft_print("DEAD\n", philo);
             return;
 
